@@ -1,0 +1,83 @@
+# Import this Blueprint from a private repository with cms/ at its root.
+# All unknown credentials are entered only into Render's secret settings.
+services:
+  - type: web
+    name: cns-content-editor
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /server/ping
+    autoDeployTrigger: off
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: "8055"
+      - key: PUBLIC_URL
+        sync: false
+      - key: SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: DB_CLIENT
+        value: pg
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_DATABASE
+        value: postgres
+      - key: DB_USER
+        value: cns_cms.akukwsxssjhuvcuvonhq
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_SEARCH_PATH
+        value: cns_cms
+      - key: DB_SSL
+        value: "true"
+      - key: DB_SSL__REJECT_UNAUTHORIZED
+        value: "true"
+      - key: DB_SSL__CA
+        sync: false
+      - key: DB_POOL__MIN
+        value: "0"
+      - key: DB_POOL__MAX
+        value: "3"
+      - key: STORAGE_LOCATIONS
+        value: supabase
+      - key: STORAGE_SUPABASE_DRIVER
+        value: s3
+      - key: STORAGE_SUPABASE_BUCKET
+        value: cns-media
+      - key: STORAGE_SUPABASE_ENDPOINT
+        value: https://akukwsxssjhuvcuvonhq.storage.supabase.co/storage/v1/s3
+      - key: STORAGE_SUPABASE_FORCE_PATH_STYLE
+        value: "true"
+      - key: STORAGE_SUPABASE_REGION
+        sync: false
+      - key: STORAGE_SUPABASE_KEY
+        sync: false
+      - key: STORAGE_SUPABASE_SECRET
+        sync: false
+      - key: CORS_ENABLED
+        value: "true"
+      - key: CORS_ORIGIN
+        sync: false
+      - key: CORS_CREDENTIALS
+        value: "false"
+      - key: PUBLIC_REGISTRATION
+        value: "false"
+      - key: FILES_MAX_UPLOAD_SIZE
+        value: 10mb
+      - key: FILES_MIME_TYPE_ALLOW_LIST
+        value: image/jpeg,image/png,image/webp,image/avif
+      - key: RATE_LIMITER_ENABLED
+        value: "true"
+      - key: CACHE_ENABLED
+        value: "false"
+      - key: TELEMETRY
+        value: "false"
